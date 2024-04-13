@@ -9,47 +9,65 @@ import { useToast } from '@/components/ui/use-toast';
 import {
     InputOTP,
     InputOTPGroup,
-    InputOTPSeparator,
     InputOTPSlot,
   } from "@/components/ui/input-otp"
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
 
+    const router = useRouter()
+
     const [phone, setPhone] = React.useState('');
     const [code, setCode] = React.useState('');
+    const [loading,setLoading] = React.useState(false)
+    const [showOTP, setShowOTP] = React.useState(false)
 
     const {toast} = useToast()
 
     useEffect(() =>{        
         auth.useDeviceLanguage()
-        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'sign-in-button', {
-            'size': 'invisible',
-            'callback': (response) => {
-              console.log('captcha solved')
-            }
-        });
+        var appVerifier = window.recaptchaVerifier;
+        if(!appVerifier){
+            window.recaptchaVerifier = new RecaptchaVerifier(auth, 'sign-in-button', {
+                'size': 'invisible',
+                'callback': (response) => {
+                  console.log('captcha solved')
+                }
+            });
+        }        
     })
 
     function onSignInSubmit(){
+        setLoading(true)
         var appVerifier = window.recaptchaVerifier;
         signInWithPhoneNumber(auth, `+91${phone}`, appVerifier)
         .then((confirmationResult) => {
-            alert('code sent')
+            setShowOTP(true)
+            setLoading(false)
             window.confirmationResult = confirmationResult;
         }).catch((error) => {
             console.log(error)
             toast({
                 title:error.message
             })
+            setLoading(false)
         });
     }
 
     function confirmOTP(){
+        setLoading(true)
         confirmationResult.confirm(code).then((result) => {
-            const user = result.user;
-            alert("confirmed")
+           toast({
+            title:"Login Success"
+           })
+           setLoading(false)
+           router.push(`/home`)
         }).catch((error) => {
-            alert("code wrong")
+            toast({
+                title:"Code incorrect",
+                variant:"destructive"
+            })
+            setLoading(false)
         });
     }
     return (
@@ -58,13 +76,16 @@ const Page = () => {
                 <p className='text-2xl font-bold' >Sign In</p>
             </div>
             <div className='flex flex-col gap-y-4 mt-11 h-fit'>
-                <div className='space-y-2'>
+                {!showOTP && <div className='space-y-2'>
                     <Label>Phone Number</Label>
                     <Input type="text" value={phone} onChange={(e)=>{e.target.value.length<=10 && setPhone(e.target.value)}}/>
-                </div>
-                <div className='space-y-2'>
+                </div>}
+                {showOTP && <div className='space-y-2'>
                     <Label>Enter OTP</Label>
-                    <InputOTP maxLength={6}>
+                    <InputOTP maxLength={6}
+                        value={code}
+                        onChange={(value) => setCode(value)}
+                    >
                         <InputOTPGroup className={`gap-x-4`}>
                             <InputOTPSlot index={0} />
                             {/* <InputOTPSeparator /> */}
@@ -79,11 +100,11 @@ const Page = () => {
                             <InputOTPSlot index={5} />
                         </InputOTPGroup>
                     </InputOTP>
-                </div>
+                </div>}
             </div>
             <div id="getotp" className='hidden opacity-0'></div>
             {
-                <Button id="sign-in-button"  onClick={onSignInSubmit} className="w-full mt-8" >Continue</Button>
+              showOTP ? <Button id="sign-in-button" loading={loading} onClick={confirmOTP} className="w-full mt-8" >Submit</Button> :  <Button id="sign-in-button" loading={loading} onClick={onSignInSubmit} className={`w-full mt-8 ${showOTP?"hidden":""}`} >Continue</Button>
             }
         </div>
     )

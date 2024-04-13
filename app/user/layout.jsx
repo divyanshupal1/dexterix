@@ -1,11 +1,26 @@
 "use client"
 import { usePathname } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavComp from './navcomp'
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from '@/lib/firebase';
+import { useRouter } from 'next/navigation';
 
 const Layout = ({children}) => {
     const path = usePathname().split("/").at(2)
     console.log(path=='login'?"h-1/2":"h-1/4")
+    const router = useRouter()
+
+    useEffect(()=>{
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                router.push('/')
+            } else {
+
+            }
+          });
+    },[])
+
     return (
         <>
         <NavComp/>
