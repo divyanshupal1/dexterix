@@ -6,9 +6,9 @@ export default function Layout({ children }) {
 
   return (
       <>
-        <div className="w-full h-screen overflow-y-scroll">
+        <div className="w-full h-fit min-h-[900px] overflow-y-scroll">
           <Navbar/>
-          <div className="w-full h-auto pt-[70px] px-[12px]">
+          <div className="w-full  h-fit pt-[70px] pb-[70px] px-[12px]">
           {children}
           </div>
           <BottomNav/>

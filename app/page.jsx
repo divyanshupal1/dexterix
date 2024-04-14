@@ -46,8 +46,10 @@ export default function Home() {
 }
 import { IoMdExit } from "react-icons/io";
   export const Navbar = () => {
-    const {toast} = useToast()
+
+  const {toast} = useToast()
   const [user,setUser] = React.useState({})
+
   React.useEffect(()=>{
     onAuthStateChanged(auth, async (user) => {
         if (user) {
@@ -58,6 +60,7 @@ import { IoMdExit } from "react-icons/io";
         }
       });
   },[])
+
   function logout(){
     signOut(auth).then(() => {
       toast({
@@ -70,6 +73,7 @@ import { IoMdExit } from "react-icons/io";
       })
     });
   }
+  
   return (
     <div className="w-full flex fixed top-0 bg-background justify-between items-center h-[60px] px-4 py-3 border-b">
         <div>

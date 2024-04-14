@@ -34,10 +34,10 @@ const buttonVariants = cva(
   }
 )
 
-const Button = React.forwardRef(({ className, variant, size,loading=false,children, asChild = false, ...props }, ref) => {
+const Button = React.forwardRef(({ className, variant,full=true, size,loading=false,children, asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : "button"
   return (
-    <div className="w-full">
+    <div className={`${full?'w-full':""} flex justify-center`}>
     
     <Comp
       disabled={loading}

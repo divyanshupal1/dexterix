@@ -102,9 +102,9 @@ const Page = () => {
                     </InputOTP>
                 </div>}
             </div>
-            <div id="getotp" className='hidden opacity-0'></div>
+            <div id="sign-in-button" className=''></div>
             {
-              showOTP ? <Button id="sign-in-button" loading={loading} onClick={confirmOTP} className="w-full mt-8" >Submit</Button> :  <Button id="sign-in-button" loading={loading} onClick={onSignInSubmit} className={`w-full mt-8 ${showOTP?"hidden":""}`} >Continue</Button>
+                <Button loading={loading} disabled={loading} onClick={showOTP ? confirmOTP : onSignInSubmit} className="w-full mt-8" >{showOTP ? "Submit" : 'Continue'}</Button> 
             }
         </div>
     )

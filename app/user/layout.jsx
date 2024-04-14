@@ -14,7 +14,7 @@ const Layout = ({children}) => {
     useEffect(()=>{
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                router.push('/')
+                router.push('/home')
             } else {
 
             }
