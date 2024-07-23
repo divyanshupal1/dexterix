@@ -75,7 +75,7 @@ import { IoMdExit } from "react-icons/io";
   }
   
   return (
-    <div className="w-full flex fixed top-0 bg-background justify-between items-center h-[60px] px-4 py-3 border-b">
+    <div className="w-full flex fixed top-0 z-[50] bg-background justify-between items-center h-[60px] px-4 py-3 border-b">
         <div>
           <span>Hi,</span> <span className="font-bold">{user?user?.username:<Skeleton className={'w-[100px] h-[10px]'}/>}</span>
         </div>

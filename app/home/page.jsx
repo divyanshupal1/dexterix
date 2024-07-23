@@ -98,6 +98,7 @@ const Card = ({item,user,refresh}) =>{
             <a href="#">
                 <h5 className="mb-2 mt-4 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{item?.info?.name}</h5>
             </a>
+            <p className="mb-0 font-normal text-gray-700 dark:text-gray-400">{item?.info?.description}</p>
             <div className="flex space-x-4 items-start">
               <div className="mt-2"><FaLocationDot/></div>
               <div className="w-auto">

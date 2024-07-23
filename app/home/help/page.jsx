@@ -75,13 +75,13 @@ const Help = () => {
     setLoading(true)
     var id = v4()
     try{
-      await setDoc(doc(db, "alerts",id ),{info,id:id,img:imageUrl});
+      await setDoc(doc(db, "alerts",id ),{info,id:id,img:imageUrl,reward:'d6YNZuqCkyk9IW2JSP0u'});
       setLoading(false)
       toast({
         title:"Submitted"
       })
       setInfo({
-        name:"",address:"",pincode:"",city:"",state:"",phone:""
+        name:"",address:"",pincode:"",city:"",state:"",phone:"",description:""
       })
     }catch(e){
         console.log(e)
@@ -124,6 +124,15 @@ const Help = () => {
                         value={info?.name} 
                         onChange={(e)=>(
                             setInfo((prev)=>({...prev,name:e.target.value}))
+                        )} 
+                    />
+        </div>
+        <div className='space-y-2'>
+                    <Label>Description</Label>
+                    <Input type="text" 
+                        value={info?.description} 
+                        onChange={(e)=>(
+                            setInfo((prev)=>({...prev,description:e.target.value}))
                         )} 
                     />
         </div>
